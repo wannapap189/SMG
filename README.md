@@ -1,20 +1,31 @@
 # SMG — SmartGift Thailand
 
-Private repository for the SmartGift Thailand website.
+ชุดส่งมอบเว็บไซต์ SmartGift Thailand วันที่ 18 พฤศจิกายน 2569
 
-## Current status
+## เปิดดูและใช้งาน
 
-- Local website preview: http://127.0.0.1:4173/
-- Working directory: `D:/SmartGiftThailand/smartgift-site`
-- This repository currently contains the initial AI website guide (`llms.txt`). It is not yet a complete backup of the website, product data, or images.
-- No hosting, deployment, or GitHub Pages has been enabled.
+1. ดาวน์โหลด ZIP จาก GitHub แล้วแตกไฟล์ หรือ clone repository นี้ด้วยบัญชีที่มีสิทธิ์
+2. ติดตั้ง Node.js 24 หรือใหม่กว่า
+3. เปิดเทอร์มินัลในโฟลเดอร์ `smartgift-site` แล้วรัน `node serve.mjs`
+4. เปิด http://127.0.0.1:4173/ ไฟล์เว็บที่สร้างแล้วอยู่ใน `smartgift-site/dist` ใช้งานได้ทันที
 
-## llms.txt
+## เปิดเว็บไซต์จริง
 
-Thai summary of services, corporate gift sets, the 12 product categories, useful pages and business contact channels. Minimum 10 sets per design applies to the SmartGift gift-set collection, not every custom product.
+- ใช้ Node.js รัน `serve.mjs` จากโฟลเดอร์ `smartgift-site` และตั้งให้เริ่มใหม่อัตโนมัติ เลือกพอร์ตด้วย `SMARTGIFT_PORT` ค่าเริ่มต้นคือ 4173
+- ตั้ง HTTPS reverse proxy ของโฮสติ้งให้โดเมน `www.smartgiftthailand.com` ส่งคำขอมาที่ Node โดยคง path และ query string เช่น `/smartgift/products?category=bag` โปรแกรมจะเลือกหน้าหมวดที่ตรงกับคำขอ และจัดการภาพสำหรับเครื่องมือลองวางโลโก้ที่ `/product-image`
+- ให้บัญชีที่รัน Node เขียนโฟลเดอร์ `catalog-import/product-image-cache` ได้ และอนุญาตการเชื่อมต่อ HTTPS ออกไปยัง `www.giftu.com.hk` สำหรับภาพต้นทางที่ยังใช้ลิงก์ภายนอก
+- ก่อนสลับโดเมน ให้เก็บเว็บเดิมและการตั้งค่า proxy เป็นจุดกู้คืน ทดสอบหน้าแรก ค้นหา “ร่ม” หน้าชุดของขวัญ ลองวางโลโก้ ดาวน์โหลดแค็ตตาล็อก ขอใบเสนอราคาทาง LINE และตรวจว่า `/robots.txt` `/sitemap.xml` และ `/llms.txt` คืนค่า HTTP 200
+- หน้าใบเสนอราคาสร้างข้อความสำหรับให้ลูกค้าส่งทาง LINE ด้วยตนเอง
+- ไฟล์ในชุดส่งมอบเปิดให้จัดทำดัชนีสำหรับโดเมนจริงแล้ว ระหว่างทดสอบบนโดเมนชั่วคราว ให้จำกัดการเข้าถึงหรือส่งหัวข้อ HTTP `X-Robots-Tag: noindex` จากโฮสติ้ง
 
-The local build generates the file from `src/llms.mjs` and existing category metadata into the project root and `dist/llms.txt`. See https://llmstxt.org/ for the format. This guide does not guarantee search ranking or AI citations.
+## แก้ไขแล้วสร้างเว็บใหม่
 
-## Ownership and privacy
+แก้ใน `smartgift-site/src` ข้อมูลตั้งต้นที่ใช้สร้างใหม่อยู่ใน `smartgift-site/dist/data` และ `catalog-import` เก็บโฟลเดอร์เหล่านี้ไว้เมื่อย้ายเครื่อง
 
-Keep original quotations, internal costs, bank details, customer contacts and credentials outside the website and repository. Media and branding retain their respective rights; this private repository grants no reuse licence.
+รัน `node src/build.mjs` จาก `smartgift-site` สำหรับเว็บทดสอบ การสร้างสำหรับโดเมนจริงต้องตั้ง `SMARTGIFT_INDEXABLE=1` ก่อนรันคำสั่งเดียวกัน จากนั้นใช้ `node src/verify.mjs` ตรวจลิงก์และโครงสร้าง
+
+เก็บ URL เดิมของหมวดสินค้าและหน้าหลักที่ตรวจพบแล้ว รายการ URL เก่าจากเว็บเดิมยังมีข้อมูลบางส่วน ทีมสามารถใช้ข้อมูล Search Console เติม redirect รายหน้าได้เมื่อเปิดจริง ภาพสินค้าและสถานะจากผู้ผลิตยังต้องยืนยันเป็นรายรุ่น โดยเฉพาะภาพที่อยู่ในคิวตรวจลายน้ำหรือข้อความต้นทาง
+
+## สิทธิ์เข้าถึง
+
+SMG เป็น repository ส่วนตัว ส่งลิงก์ให้ทีมงานที่ได้รับสิทธิ์เข้าถึงแล้ว ผู้ดูแลเพิ่มทีมได้ที่ [Manage access](https://github.com/wannapap189/SMG/settings/access)

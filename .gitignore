@@ -1,0 +1,6 @@
+catalog-import/product-image-cache/
+catalog-import/retired-owned-giftsets.json
+*.log
+.env
+.env.*
+node_modules/
